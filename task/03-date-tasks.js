@@ -22,7 +22,7 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-   throw new Error('Not implemented');
+   return Date.parse(value);
 }
 
 /**
@@ -37,7 +37,7 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-   throw new Error('Not implemented');
+   return Date.parse(value);
 }
 
 
@@ -56,8 +56,9 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-   throw new Error('Not implemented');
-}
+   date.setDate(29);
+   return date.getDate() === 29;
+ }
 
 
 /**
@@ -76,7 +77,20 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-   throw new Error('Not implemented');
+   let dif = new Date(endDate - startDate),
+   hh = format(endDate.getHours()-startDate.getHours()),
+   mm = format(dif.getMinutes()),
+   ss = format(dif.getSeconds()),
+   sss = format(dif.getMilliseconds(), true);
+      function format (param, isMS) {
+        if (isMS) {
+          if (param <10) return `00${param}`;
+          else if (param < 100) return `0${param}`;
+          return param;
+        } else if (param <10) return `0${param}`;
+        return param;
+      }
+   return `${hh}:${mm}:${ss}.${sss}`;
 }
 
 
@@ -96,7 +110,6 @@ function timeSpanToString(startDate, endDate) {
 function angleBetweenClockHands(date) {
     throw new Error('Not implemented');
 }
-
 
 module.exports = {
     parseDataFromRfc2822: parseDataFromRfc2822,
