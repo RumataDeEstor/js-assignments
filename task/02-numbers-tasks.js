@@ -127,8 +127,7 @@ function getAngleBetweenVectors(x1, y1, x2, y2) {
  *     0     => 0
  */
 function getLastDigit(value) {
-    let val = String (value);
-    return +val[val.length-1];
+    return value % 10;
 }
 
 
