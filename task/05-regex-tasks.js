@@ -31,9 +31,8 @@
  * @return {RegExp}
  */
 function getRegexForGuid() {
-   throw new Error('Not implemented');
+   return /^{[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}}$/;
 }
-
 
 /**
  * Returns the regexp that matches all the strings from first column
@@ -53,7 +52,7 @@ function getRegexForGuid() {
  *
  */
 function getRegexForPitSpot() {
-   throw new Error('Not implemented');
+   return /^[a-z]*p.t/;
 }
 
 
