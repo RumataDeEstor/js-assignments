@@ -56,7 +56,7 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-   date.setDate(29);
+   date.setMonth(1, 29);
    return date.getDate() === 29;
  }
 
