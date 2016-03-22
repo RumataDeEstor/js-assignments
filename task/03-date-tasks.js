@@ -94,16 +94,16 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,18, 0) => Math.PI
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
-function angleBetweenClockHands(date) {
-    throw new Error('Not implemented');
-    // let d = new Date(date),
-    //   h = d.getUTCHours(),
-    //   m = d.getUTCMinutes(),
-    //   result = Math.abs( (0.5 * (60 * h - 11 * m) ))*Math.PI/180;
-    //   return result;
-    // }
+function angleBetweenClockHands(date) {    
+    let d = new Date(date),
+      h = d.getUTCHours(),
+      m = d.getUTCMinutes(),
+      result = (0.5 * (60 * h - 11 * m));
+    if (result>360) result = result - 360;
+    if (result>180) result = 360-result;
+    return (result*Math.PI/180).toFixed(10);
 }
-
+    
 module.exports = {
     parseDataFromRfc2822: parseDataFromRfc2822,
     parseDataFromIso8601: parseDataFromIso8601,
