@@ -526,7 +526,7 @@ function group(array, keySelector, valueSelector) {
         value = valueSelector(cur);
         let arr = prev.get(key) || [];
         arr.push(value);
-        prev.set(key, arr);
+        prev.set(key, arr); // probably excess "set" if item exist
         return prev;
     }, new Map);
 }
@@ -561,7 +561,9 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-    throw new Error('Not implemented');
+    return indexes.reduce( (prev, cur) => {
+      return prev[cur];
+    },arr)
 }
 
 
