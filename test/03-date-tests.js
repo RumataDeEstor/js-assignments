@@ -99,12 +99,14 @@ describe('03-date-tasks', function() {
             {
                 date:     Date.UTC(2016,3,5, 0, 0),
                 expected: 0
-            },
+            }
+            ,
              {
                 date:     Date.UTC(2016,3,5, 3, 0),
                 expected: Math.PI/2
             }
-            , {
+            , 
+            {
                 date:     Date.UTC(2016,3,5,15, 0),
                 expected: Math.PI/2
             }, 
@@ -114,13 +116,15 @@ describe('03-date-tasks', function() {
             }, {
                 date:     Date.UTC(2016,3,5,18, 0),
                 expected: Math.PI
-            }, {
+            }, 
+            {
                 date:     Date.UTC(2016,3,5, 9, 0),
                 expected: Math.PI/2
             }, {
                 date:     Date.UTC(2016,3,5,21, 0),
                 expected: Math.PI/2
-            }, {
+            }, 
+            {
                 date:     Date.UTC(2016,3,5,14,20),
                 expected: 0.8726646259971648
             }, {
@@ -130,7 +134,7 @@ describe('03-date-tasks', function() {
         ].forEach(data => {
             assert.equal(
                 tasks.angleBetweenClockHands(new Date(data.date)),
-                data.expected,
+                (data.expected).toFixed(10),
                 `Incorrect result for angleBetweenClockHands(${new Date(data.date).toUTCString()}):`   
             );
         });
