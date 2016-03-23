@@ -71,7 +71,9 @@ function getRegexForPitSpot() {
  * @return {RegExp}
  */
 function getRegexForIPv4() {
-   throw new Error('Not implemented');
+   let pattern = `((\\d{1,2})|(0\\d{1,2})|(1\\d{2})|(2[0-4]\\d)|(25[0-5]))`,
+   reg = `^${pattern}\\.${pattern}\\.${pattern}\\.${pattern}$`
+   return new RegExp (reg);   
 }
 
 
@@ -90,7 +92,11 @@ function getRegexForIPv4() {
  * @return {RegExp}
  */
 function getRegexForSSN() {
-   throw new Error('Not implemented');
+  let reg = `^(([1-9]\\d\\d)|(\\d[1-9]\\d)|(\\d\\d[1-9]))`+
+  `-(([1-9]\\d)|(\\d[1-9]))-`+
+  `(([1-9]\\d\\d\\d)|(\\d[1-9]\\d\\d)|(\\d\\d[1-9]\\d)|(\\d\\d\\d[1-9]))$`;
+  let regexp = new RegExp(reg);
+  return regexp;
 }
 
 
