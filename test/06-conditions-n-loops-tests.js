@@ -372,7 +372,7 @@ describe('06-conditions-n-loops-tasks', function() {
         ].forEach(str => {
             assert(
                 tasks.isBracketsBalanced(str) == false,
-                `'${str}' has unbalanced brackets, but actually yes`
+                `'${str}' hasn't unbalanced brackets, but actually yes`
             )
         });
 

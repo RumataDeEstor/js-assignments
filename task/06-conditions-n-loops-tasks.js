@@ -245,7 +245,12 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    throw new Error('Not implemented');
+    let arr = [],
+    str = String(num);
+    for (let i = 0; i<str.length; i++) {
+        arr.push(str[i]);
+    }
+    return +(arr.reverse().join(""));
 }
 
 
@@ -270,7 +275,21 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    throw new Error('Not implemented');
+    let str = String(ccn),
+    sum = 0,
+    i,
+    result;
+    for (i=str.length-1; i>=0; i--) {
+        let curRes;
+        if ((str.length-i)%2===0) {
+            curRes = 2 * str[i];
+            if (curRes>9) curRes -= 9;
+        } else {
+            curRes=+str[i];
+        }
+        sum+=curRes;        
+    }
+    return (sum % 10 === 0);
 }
 
 
@@ -289,7 +308,18 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    throw new Error('Not implemented');
+    let arr = String(num).split(""),
+    sum = 0;
+    for (let i=0; i<arr.length; i++) {
+        sum+= +arr[i];
+    }
+    if (sum<9) return sum;
+    let result = 0;
+    sum = String(sum);
+    for (let i=0; i<sum.length; i++) {
+        result+= +sum[i];
+    }
+    return result;
 }
 
 
@@ -315,7 +345,39 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true 
  */
 function isBracketsBalanced(str) {
-    throw new Error('Not implemented');
+    let opening = [];
+    for (let i=0; i<str.length; i++) {
+        switch (str[i]){
+            case '[':
+            case '(':
+            case '<':
+            case '{':
+                opening.push(str[i]);
+                break;
+            case ')':
+                if (opening[opening.length-1] === '(') {
+                    opening.splice(-1,1);
+                } else return false;
+                break;
+            case ']':
+                if (opening[opening.length-1] === '[') {
+                    opening.splice(-1,1);
+                } else return false;
+                break;
+            case '}':
+                if (opening[opening.length-1] === '{') {
+                    opening.splice(-1,1);
+                } else return false;
+                break;
+            case '>':
+                if (opening[opening.length-1] === '<') {
+                    opening.splice(-1,1);
+                } else return false;
+                break;
+        }
+    }
+    if (opening.length) return false;
+    return true;
 }
 
 
