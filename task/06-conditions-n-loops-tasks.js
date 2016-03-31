@@ -438,19 +438,30 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-    // let dif = endDate-startDate,
-    // difSec = dif/1000,
-    // difMin, difHour;
-    // if (difSec <= 45) return `a few seconds ago`;
-    // if (difSec <= 90) return `a minute ago`;
-    // difMin = difSec/60;
-    // if (difMin <= 2) return `2 minutes ago`;
-    // if (difMin <= 45) return `${Math.floor(difMin)} minutes ago`;
-    // if (difMin <= 90) return `an hour ago`;
-    // difHour = difMin/60;
-    // if (difHour <= 2) return `2 hours ago`;
-    // if (difHour <= 22) return `${Math.ceil(difHour)} hours ago`;
-    throw new Error('Not implemented');
+    const diff = endDate-startDate,
+    sec = 1000,
+    min = sec*60,
+    hour = min*60,
+    day = hour*24,
+    month = day*30,
+    year = day*365;
+
+    let roundTime = (value) => {
+        if (value%1 > 0.5) return Math.ceil(value);
+        return Math.floor(value);
+    }
+
+    if (diff <= sec*45) return `a few seconds ago`;
+    if (diff <= sec*90) return `a minute ago`;
+    if (diff <= min*45) return `${roundTime(diff/min)} minutes ago`;
+    if (diff <= min*90) return `an hour ago`;
+    if (diff <= hour*22) return `${roundTime(diff/hour)} hours ago`;
+    if (diff <= hour*36) return `a day ago`;
+    if (diff <= day*25) return `${roundTime(diff/day)} days ago`;
+    if (diff <= day*45) return `a month ago`;
+    if (diff <= day*345) return `${roundTime(diff/month)} months ago`;
+    if (diff <= day*545) return `a year ago`;
+    return `${roundTime(diff/year)} years ago`;
 }
 
 
@@ -474,7 +485,7 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    throw new Error('Not implemented');
+    return num.toString(n);
 }
 
 
@@ -491,7 +502,14 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-    throw new Error('Not implemented');
+    let bound = 0; 
+    outer: for (let i=0; i<pathes[0].length; i++) {
+               for (let j=1; j<pathes.length; j++) {
+                   if (pathes[0][i] !== pathes[j][i]) break outer;                   
+               }
+               if (pathes[0][i] === "/") bound = i+1;
+           }
+    return pathes[0].slice(0, bound);
 }
 
 
@@ -514,7 +532,7 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-    throw new Error('Not implemented');
+    throw new Error ("Not implemented");
 }
 
 
@@ -549,9 +567,28 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    throw new Error('Not implemented');
-}
+    for(let i=0; i<position.length; i++)  {
+        if(position[i][0]===position[i][1] &&
+               position[i][0]===position[i][2] &&
+               (position[i][0])) return position[i][0];
+        }
 
+    for(let i=0; i<position.length; i++) {
+        if(position[0][i]===position[1][i] &&
+           position[0][i]===position[2][i] &&
+           (position[0][i])) return position[0][i];
+        }
+
+    if(position[0][0]===position[1][1] &&
+          position[1][1]===position[2][2] &&
+          (position[0][0])) return position[0][0];
+
+    if(position[0][2]===position[1][1] &&
+        position[1][1]===position[2][0] &&
+        (position[0][2])) return position[0][2];
+
+    return; 
+}
 
 module.exports = {
     getFizzBuzz: getFizzBuzz,
