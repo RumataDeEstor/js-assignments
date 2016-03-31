@@ -138,7 +138,20 @@ function isTriangle(a,b,c) {
  *  
  */
 function doRectanglesOverlap(rect1, rect2) {
-    throw new Error('Not implemented');
+    let x0 = rect1.left,
+    y0 = rect1.top,
+    x1 = rect1.left+rect1.width,
+    y1 = rect1.top+rect1.height,
+    x2 = rect2.left,
+    y2 = rect2.top,
+    x3 = rect2.left+rect2.width,
+    y3 = rect2.top+rect2.height;
+
+    return (!( x0 > x3 || 
+         x1 < x2 || 
+         y0 > y3 || 
+         y1 < y2 
+    ));
 }
 
 
@@ -187,7 +200,11 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    throw new Error('Not implemented');
+    for (let value of str) {
+        if (str.indexOf(value) === str.lastIndexOf(value)) 
+            return value;
+    }
+    return null;
 }
 
 
@@ -421,6 +438,18 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
+    // let dif = endDate-startDate,
+    // difSec = dif/1000,
+    // difMin, difHour;
+    // if (difSec <= 45) return `a few seconds ago`;
+    // if (difSec <= 90) return `a minute ago`;
+    // difMin = difSec/60;
+    // if (difMin <= 2) return `2 minutes ago`;
+    // if (difMin <= 45) return `${Math.floor(difMin)} minutes ago`;
+    // if (difMin <= 90) return `an hour ago`;
+    // difHour = difMin/60;
+    // if (difHour <= 2) return `2 hours ago`;
+    // if (difHour <= 22) return `${Math.ceil(difHour)} hours ago`;
     throw new Error('Not implemented');
 }
 
