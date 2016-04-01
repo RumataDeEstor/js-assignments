@@ -70,8 +70,15 @@ function* get99BottlesOfBeer() {
  * @return {Iterable.<number>}
  *
  */
-function* getFibonacciSequence() {
-    throw new Error('Not implemented');
+function* getFibonacciSequence() {   
+  let fn1 = 0,
+  fn2 = 1;
+  while (true){  
+    var current = fn1;
+    fn1 = fn2;
+    fn2 = current + fn1;
+    yield current;
+  }
 }
 
 
