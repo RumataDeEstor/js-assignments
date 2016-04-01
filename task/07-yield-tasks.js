@@ -33,7 +33,31 @@
  *
  */
 function* get99BottlesOfBeer() {
-    throw new Error('Not implemented');
+    let bottle = 99,
+    text1, text2;   
+    
+    while (bottle>=0) {
+        text1 = `${bottle} bottles of beer on the wall, ${bottle} bottles of beer.`;
+        if (bottle == 1) {
+            text1 = `1 bottle of beer on the wall, 1 bottle of beer.`
+        }
+        if (bottle == 0) {
+            text1 = `No more bottles of beer on the wall, no more bottles of beer.`;
+            yield text1;
+            break;
+        }
+        yield text1;
+        bottle--;
+        text2 = `Take one down and pass it around, ${bottle} bottles of beer on the wall.`
+        if (bottle == 1) {
+            text2 = `Take one down and pass it around, ${bottle} bottle of beer on the wall.`
+        }
+        if (bottle == 0) {
+            text2 = `Take one down and pass it around, no more bottles of beer on the wall.`
+        }
+        yield text2;
+    }  
+    yield `Go to the store and buy some more, 99 bottles of beer on the wall.`;   
 }
 
 
