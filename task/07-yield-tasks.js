@@ -74,9 +74,9 @@ function* getFibonacciSequence() {
   let fn1 = 0,
   fn2 = 1;
   while (true){  
-    let current = fn1;
-    fn1 = fn2;
-    fn2 = current + fn1;
+    let current = fn1; 
+    fn1 = fn2; 
+    fn2 = current + fn1; 
     yield current;
   }
 }
@@ -113,9 +113,28 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-    throw new Error('Not implemented');
+    let stack = [];
+    stack.push(root);
+    yield root;
+    while (stack.length) {
+        let cur = stack[stack.length - 1];
+        if (cur.children) {
+            let isUnchecked = false;
+            for (let i=0; i<cur.children.length; i++) {
+            
+                if (cur.children[i]) {
+                    isUnchecked = true;
+                    stack.push(cur.children[i]);
+                    yield cur.children[i];
+                    cur.children[i]=null;
+                    break;
+                }
+            }
+        if (!isUnchecked) stack.pop(cur);
+                    
+        } else stack.pop(cur);         
+    }
 }
-
 
 /**
  * Traverses a tree using the breadth-first strategy
