@@ -118,20 +118,12 @@ function* depthTraversalTree(root) {
     yield root;
     while (stack.length) {
         let cur = stack[stack.length - 1];
-        if (cur.children) {
-            let isUnchecked = false;
-            for (let i=0; i<cur.children.length; i++) {
-            
-                if (cur.children[i]) {
-                    isUnchecked = true;
-                    stack.push(cur.children[i]);
-                    yield cur.children[i];
-                    cur.children[i]=null;
-                    break;
-                }
-            }
-        if (!isUnchecked) stack.pop(cur);
-                    
+        if ((cur.children) && (cur.children.length)) {              
+                     
+            stack.push(cur.children[0]);
+            yield cur.children[0];
+            cur.children.splice(0,1);
+                            
         } else stack.pop(cur);         
     }
 }
