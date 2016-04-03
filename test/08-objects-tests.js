@@ -72,7 +72,7 @@ describe('08-objects-tasks', function() {
         var MockType = function(a,b,c) {
             this.a = a;
             this.b = b;
-            this.c = c;
+            this.c = c;            
         };
 
         [
@@ -80,7 +80,9 @@ describe('08-objects-tasks', function() {
                 proto: tasks.Rectangle.prototype,
                 json: '{ "width":10, "height":20 }',
                 expected: new tasks.Rectangle(10, 20)
-            },{
+            }
+            ,
+            {
                 proto: MockType.prototype,
                 json: '{ "a":10, "b":20, "c":30 }',
                 expected: new MockType(10,20,30)
