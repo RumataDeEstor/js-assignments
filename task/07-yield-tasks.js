@@ -112,14 +112,13 @@ function* depthTraversalTree(root) {
     let stack = [];
     stack.push(root);
     yield root;
+
     while (stack.length) {
         let cur = stack[stack.length - 1];
-        if ((cur.children) && (cur.children.length)) {              
-                     
+        if (cur.children && cur.children.length) {              
             stack.push(cur.children[0]);
             yield cur.children[0];
-            cur.children.splice(0,1);
-                            
+            cur.children.splice(0,1);                            
         } else stack.pop(cur);         
     }
 }
@@ -148,6 +147,7 @@ function* depthTraversalTree(root) {
 function* breadthTraversalTree(root) {
     let queue = [];
     queue.unshift(root);
+    
     while (queue.length) {
         let cur = queue[queue.length-1];
         yield cur;
