@@ -28,7 +28,7 @@ function Rectangle(width, height) {
 }
 
 Rectangle.prototype.getArea = function() {
-    return this.width*this.height
+    return this.width*this.height;
 };
 
 
@@ -113,35 +113,69 @@ function fromJSON(proto, json) {
 
 const cssSelectorBuilder = {
 
+    error1Msg: `Element, id and pseudo-element should not occur more then one time inside the selector`,
+
+    result: ``,
+
     element: function(value) {
-        throw new Error('Not implemented');
+        let curBuilder = {};
+        Object.setPrototypeOf(curBuilder, this);
+        curBuilder.result += value;        
+        return curBuilder;
     },
 
     id: function(value) {
-        throw new Error('Not implemented');
+        let idValue = `#${value}`,
+        curBuilder = {};
+        Object.setPrototypeOf(curBuilder, this);
+        curBuilder.result += idValue;    
+        return curBuilder;
     },
 
     class: function(value) {
-        throw new Error('Not implemented');
+        let classValue = `.${value}`,
+        curBuilder = {};
+        Object.setPrototypeOf(curBuilder, this);
+        curBuilder.result += classValue;    
+        return curBuilder;
     },
 
     attr: function(value) {
-        throw new Error('Not implemented');
+        let attrValue = `[${value}]`,
+        curBuilder = {};
+        Object.setPrototypeOf(curBuilder, this);
+        curBuilder.result += attrValue;    
+        return curBuilder;
     },
 
     pseudoClass: function(value) {
-        throw new Error('Not implemented');
+        let psClassValue = `:${value}`,
+        curBuilder = {};
+        Object.setPrototypeOf(curBuilder, this);
+        curBuilder.result += psClassValue;    
+        return curBuilder;
     },
 
     pseudoElement: function(value) {
-        throw new Error('Not implemented');
+        let psElValue = `::${value}`,
+        curBuilder = {};
+        Object.setPrototypeOf(curBuilder, this);
+        curBuilder.result += psElValue;    
+        return curBuilder;
     },
 
     combine: function(selector1, combinator, selector2) {
-        throw new Error('Not implemented');
+        let combValue = `${selector1.stringify()} ${combinator} ${selector2.stringify()}`,
+        curBuilder = {};
+        Object.setPrototypeOf(curBuilder, this);
+        curBuilder.result += combValue;    
+        return curBuilder;
     },
-};
 
+    stringify: function () {
+        return this.result;
+    }
+};  
 
 module.exports = {
     Rectangle: Rectangle,
