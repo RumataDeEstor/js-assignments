@@ -19,14 +19,16 @@
  *
  * @param {Function} f
  * @param {Function} g
- * @return {Function}
+ * @return {Function} 
  *
  * @example
  *   getComposition(Math.sin, Math.asin)(x) => Math.sin(Math.acos(x))
  *
  */
 function getComposition(f,g) {
-    throw new Error('Not implemented');
+    return function foo (x) {
+        return f(g(x));
+    }
 }
 
 
@@ -47,7 +49,9 @@ function getComposition(f,g) {
  *
  */
 function getPowerFunction(exponent) {
-    throw new Error('Not implemented');
+    return function mathPower (base) {
+        return Math.pow(base, exponent);
+    }
 }
 
 
