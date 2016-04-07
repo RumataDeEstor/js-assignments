@@ -113,20 +113,36 @@ function fromJSON(proto, json) {
 
 const cssSelectorBuilder = {
 
-    error1Msg: `Element, id and pseudo-element should not occur more then one time inside the selector`,
+    error1: `Element, id and pseudo-element should not occur more then one time inside the selector`,
+
+    error2: `Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element`,
 
     result: ``,
 
+    index: 0,
+
     element: function(value) {
-        let curBuilder = {};
+        let curBuilder = {index: 1};
+        if (curBuilder.index === this.index) {
+            throw new Error (this.error1);
+        } 
+        if (curBuilder.index < this.index) {
+            throw new Error (this.error2);
+        }           
         Object.setPrototypeOf(curBuilder, this);
         curBuilder.result += value;        
         return curBuilder;
-    },
+    }, 
 
     id: function(value) {
         let idValue = `#${value}`,
-        curBuilder = {};
+        curBuilder = {index: 2};
+        if (curBuilder.index === this.index) {
+            throw new Error (this.error1);
+        }
+        if (curBuilder.index < this.index) {
+            throw new Error (this.error2);
+        }
         Object.setPrototypeOf(curBuilder, this);
         curBuilder.result += idValue;    
         return curBuilder;
@@ -134,7 +150,10 @@ const cssSelectorBuilder = {
 
     class: function(value) {
         let classValue = `.${value}`,
-        curBuilder = {};
+        curBuilder = {index: 3};
+        if (curBuilder.index < this.index) {
+            throw new Error (this.error2);
+        }
         Object.setPrototypeOf(curBuilder, this);
         curBuilder.result += classValue;    
         return curBuilder;
@@ -142,7 +161,10 @@ const cssSelectorBuilder = {
 
     attr: function(value) {
         let attrValue = `[${value}]`,
-        curBuilder = {};
+        curBuilder = {index: 4};
+        if (curBuilder.index < this.index) {
+            throw new Error (this.error2);
+        }
         Object.setPrototypeOf(curBuilder, this);
         curBuilder.result += attrValue;    
         return curBuilder;
@@ -150,7 +172,10 @@ const cssSelectorBuilder = {
 
     pseudoClass: function(value) {
         let psClassValue = `:${value}`,
-        curBuilder = {};
+        curBuilder = {index: 5};
+        if (curBuilder.index < this.index) {
+            throw new Error (this.error2);
+        }
         Object.setPrototypeOf(curBuilder, this);
         curBuilder.result += psClassValue;    
         return curBuilder;
@@ -158,7 +183,13 @@ const cssSelectorBuilder = {
 
     pseudoElement: function(value) {
         let psElValue = `::${value}`,
-        curBuilder = {};
+        curBuilder = {index: 6};
+        if (curBuilder.index === this.index) {
+            throw new Error (this.error1);
+        } 
+        if (curBuilder.index < this.index) {
+            throw new Error (this.error2);
+        }
         Object.setPrototypeOf(curBuilder, this);
         curBuilder.result += psElValue;    
         return curBuilder;
