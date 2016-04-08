@@ -160,7 +160,7 @@ function logger(func, logFunc) {
         argsString = args.map((el)=> JSON.stringify(el)),
         log = `${func.name}(${argsString})`,
         result;
-        
+
         logFunc(`${log} starts`);
         result = func.apply(null, args);
         logFunc(`${log} ends`);
@@ -183,7 +183,11 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn) {
-    throw new Error('Not implemented');
+    let args = [].slice.call(arguments, 1);
+    return function () {
+        args = args.concat([].slice.call(arguments));
+        return fn.apply(null, args);
+    }
 }
 
 
@@ -204,7 +208,8 @@ function partialUsingArguments(fn) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-    throw new Error('Not implemented');
+    let id = startFrom;
+    return () => id++;
 }
 
 
