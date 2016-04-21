@@ -17,81 +17,35 @@
  *  ]
  */
 function createCompassPoints() {
-    let sides = ['N','E','S','W'],
-    abbr = createAbbs(sides),
-    azimuth = createAzimuth();     
+    function* generatePoints (start, end, isReversed) {
+        let points = [`${start}b${end}`,`${start}${start}${end}`,`${start}${end}b${start}`,
+        `${start}${end}`,`${start}${end}b${end}`,`${end}${start}${end}`,`${end}b${start}`];
+        if (isReversed) points.reverse();
 
-    let result = new Array(32).fill(0);
-    result = result.map( (el,i) => { let obj = new Object();
-        obj.abbreviation = abbr[i];
-        obj.azimuth = azimuth[i];
-        return obj;
+        for (let el of points) {
+            yield el;
+        }
+    } 
+    let sides = ['N','E','S','W'],
+    az = 0,
+    result = [],
+    generalPoints = [
+        {direction: sides[0], func: generatePoints(sides[0], sides[1], false)},
+        {direction: sides[1], func: generatePoints(sides[2], sides[1], true)},
+        {direction: sides[2], func: generatePoints(sides[2], sides[3], false)},
+        {direction: sides[3], func: generatePoints(sides[0], sides[3], true)}
+    ];
+    generalPoints.forEach(elem => {
+        result.push({abbreviation: elem.direction, azimuth: az}); 
+            
+        for (let i = 0; i < 8; i++) {
+            az += 11.25; 
+            if (i===7) break;
+            result.push({abbreviation: elem.func.next().value, azimuth: az});  
+        }
     });
 
     return result;
-}
-
-function createAzimuth () {
-    let azimuth = [],
-    az = 0;  
-
-    for (let i = 0; i<32; i++) {
-        azimuth.push(az);
-        az+=11.25;
-    }
-    return azimuth;
-}
-
-function createAbbs (sides) {
-    let abbr = new Array(33).fill(0),                  
-    j = 0,    
-    cash;
-
-    for (let i=0; i<32; i+=8) {
-        abbr[i]=sides[j];
-        j++;
-    }
-
-    abbr[32] = abbr[0];
-
-    j=0;
-
-    for (let i=4; i<32; i+=8) {
-        if (j%2 === 0) abbr[i]=abbr[i-4]+abbr[i+4];
-        else abbr[i]=abbr[i+4]+abbr[i-4];
-        j++;
-    }
-
-    j = 0;
-   
-    for (let i=1; i<32; i+=4) {
-        if (j%2 === 0) {
-          cash = abbr[i+7];
-        }
-        abbr[i] = abbr[i-1]+"b"+cash;
-        j++;
-    }
-
-    j = 0;
-
-    for (let i = 2; i<32; i+=4) {
-        if (j%2 === 0) {
-            abbr[i] = abbr[i-2]+abbr[i+2];
-        }
-        else abbr[i] = abbr[i+2]+abbr[i-2];
-        j++;
-    }
-
-    j=0;
-
-    for (let i=3; i<28; i+=8) {
-        abbr[i] = abbr[i+1]+"b"+abbr[j];
-        abbr[i+4] = abbr[i+4+1]+"b"+abbr[j];
-        j+=8;
-    }
-
-    abbr.splice(32,1);
-    return abbr;
 }
 
 
