@@ -139,8 +139,34 @@ function getZigZagMatrix(n) {
  * [[0,0], [0,1], [1,1], [0,2], [1,2], [2,2], [0,3], [1,3], [2,3], [3,3]] => false
  *
  */
-function canDominoesMakeRow(dominoes) {
-    throw new Error('Not implemented');
+function canDominoesMakeRow(dominoes) {    
+    let remainder = Array.prototype.concat.apply([], dominoes);
+
+    function countSingleElemOccur (arr, elem) {
+        let pos = 0;
+        let count = 0;
+        
+        while (pos<arr.length) {  
+          let curPosEl = arr.indexOf(elem,pos);
+          if (curPosEl == -1) break;
+          count++;
+          arr[curPosEl] = -1;
+          pos=curPosEl+1;
+          if (curPosEl % 2 === 0) pos+=1;          
+        }
+        return count;
+    }
+
+    let result = remainder    
+    .filter((elem, i, arr) => arr.indexOf(elem) == i)
+    .filter((elem, i, arr) => countSingleElemOccur(remainder, elem) % 2);
+    remainder = remainder
+    .filter ((elem) => elem != -1);
+
+    result = result.concat(remainder);
+
+    if (result.length > 2) return false;
+    return true;
 }
 
 
