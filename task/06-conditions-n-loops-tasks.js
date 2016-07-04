@@ -201,13 +201,23 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    for (let value of str) {
-        if (str.indexOf(value) === str.lastIndexOf(value)) 
-            return value;
-    }
-    return null;
-}
+    let duplicates = new Set(),
+    current = new Set();
 
+    for (let c of str) {
+    
+        if (duplicates.has(c)) continue;
+
+        if (current.has(c)) {
+            current.delete(c);
+            duplicates.add(c);
+        } else current.add(c);
+    };
+
+    let result = current.values().next();
+
+    return result.value || null;
+}
 
 /**
  * Returns the string representation of math interval, specified by two points and include / exclude flags.
@@ -271,11 +281,16 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    let result = "";
-    num = String(num);
-    for (let i=num.length-1; i>=0; i--) {
-        result+=num[i];
+    let result = 0,
+    curnum = num;
+
+    while (curnum > 0) {
+        let curdig = curnum % 10;
+        result *= 10;
+        result += curdig;
+        curnum = ~~ (curnum / 10);        
     }
+
     return result;
 }
 
@@ -334,19 +349,23 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    let arr = String(num).split(""),
-    sum = 0;
-    for (let i=0; i<arr.length; i++) {
-        sum+= +arr[i];
+    let sum = 0,
+    curnum = num;
+    while (true) {
+        let curdig = curnum % 10; 
+        sum += curdig;   
+        curnum = ~~ (curnum / 10); 
+        if (curnum == 0) {
+            if (sum > 9) {
+                curnum = sum;
+                sum = 0;
+            }
+            else break;
+        } 
     }
-    if (sum<9) return sum;
-    let result = 0;
-    sum = String(sum);
-    for (let i=0; i<sum.length; i++) {
-        result+= +sum[i];
-    }
-    return result;
+    return sum;
 }
+
 
 
 /**
@@ -370,41 +389,23 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true 
  */
-function isBracketsBalanced(str) {
-    let opening = [];
-    for (let i=0; i<str.length; i++) {
-        switch (str[i]){
-            case '[':
-            case '(':
-            case '<':
-            case '{':
-                opening.push(str[i]);
-                break;
-            case ')':
-                if (opening[opening.length-1] === '(') {
-                    opening.splice(-1,1);
-                } else return false;
-                break;
-            case ']':
-                if (opening[opening.length-1] === '[') {
-                    opening.splice(-1,1);
-                } else return false;
-                break;
-            case '}':
-                if (opening[opening.length-1] === '{') {
-                    opening.splice(-1,1);
-                } else return false;
-                break;
-            case '>':
-                if (opening[opening.length-1] === '<') {
-                    opening.splice(-1,1);
-                } else return false;
-                break;
+function isBracketsBalanced(str) {    
+    let stack = [];
+    const openingBraces = ['(', '{', '[', '<'],
+    closingBraces = [')','}',']', '>'],
+    bracesPares = new Map (openingBraces.map((el, i) => [el, closingBraces[i]]));
+
+    for (let s of str) {
+        let closingPare = bracesPares.get(s);
+        if (closingPare) {
+            stack.push(closingPare);
+        } else {
+            if (stack.pop() !== s) return false;
         }
     }
-    if (opening.length) return false;
-    return true;
+    return !stack.length;
 }
+
 
 
 /**
